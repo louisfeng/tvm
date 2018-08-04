@@ -8,7 +8,7 @@ PKG_CFLAGS = -std=c++11 -O2 -fPIC\
 	-I${DMLC_CORE}/include\
 	-I${TVM_ROOT}/dlpack/include\
 
-PKG_LDFLAGS = -L${TVM_ROOT}/build -ldl -lpthread
+PKG_LDFLAGS = -pthread -L${TVM_ROOT}/build
 
 .PHONY: clean all
 
@@ -31,4 +31,4 @@ lib/cpp_deploy_pack: cpp_deploy.cc lib/test_addone_sys.o lib/libtvm_runtime_pack
 # Deploy using pre-built libtvm_runtime.so
 lib/cpp_deploy_normal: cpp_deploy.cc lib/test_addone_sys.o
 	@mkdir -p $(@D)
-	$(CXX) $(PKG_CFLAGS) -o $@  $^ $(PKG_LDFLAGS) -ltvm_runtime
+	$(CXX) $(PKG_CFLAGS) -o $@  $^ $(PKG_LDFLAGS) -ltvm_runtime -ldl
